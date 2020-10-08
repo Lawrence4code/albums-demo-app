@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const PaginationControlButton = ({ type, ops, text }) => {
-  console.log(type, ops, text);
   const dispatch = useDispatch();
 
   const handleNextClick = () => {

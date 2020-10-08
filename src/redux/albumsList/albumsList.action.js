@@ -10,7 +10,6 @@ export const getAlbums = (startAt, perPage) => {
       const albumsResponse = await axios.get(
         `${baseAPI}/albums?_start=${startAt}&_limit=${perPage}`
       );
-      // const usersResponse = JSON.parse(localStorage.getItem('users')) || await axios.get(`${baseAPI}/users`);
       const userList =
         JSON.parse(localStorage.getItem('userList')) ||
         (await (await axios.get(`${baseAPI}/users`)).data);
@@ -23,7 +22,6 @@ export const getAlbums = (startAt, perPage) => {
 
       dispatch(setAlbums(albumsData));
     } catch (e) {
-      console.log('err', e);
       dispatch(setFetchError(true));
       dispatch(setIsFetching(false));
     }
