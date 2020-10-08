@@ -1,0 +1,24 @@
+.album-container {
+  text-align: center;
+}
+
+.album-title {
+  font-size: 2rem;
+  text-transform: capitalize;
+}
+
+.album__card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-bottom: 0.5rem;
+}
+
+.album__card {
+  width: 30%;
+}
+
+.album__card--image {
+  border-radius: 4px;
+  height: 8.75rem;
+}

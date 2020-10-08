@@ -1,0 +1,8 @@
+const albumActionsTypes = {
+  SET_ALBUM: 'SET_ALBUM',
+  SET_ALBUM_IS_FETCHING: 'SET_ALBUM_IS_FETCHING',
+  SET_ALBUM_CURRENT_PAGE: 'SET_ALBUM_CURRENT_PAGE',
+  SET_ALBUM_FETCH_ERROR: 'SET_ALBUM_FETCH_ERROR',
+};
+
+export default albumActionsTypes;

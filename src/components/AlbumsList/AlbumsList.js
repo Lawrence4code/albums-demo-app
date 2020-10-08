@@ -6,6 +6,7 @@ import {
   setCurrentPage,
 } from './../../redux/albumsList/albumsList.action';
 
+import PaginationSerialButtons from '../PaginationSerialButtons/PaginationSerialButtons';
 import Loader from '../Loader/Loader';
 import ErrorMessage from './../ErrorMessage/ErrorMessage';
 
@@ -55,28 +56,6 @@ const AlbumList = () => {
     dispatch(setCurrentPage(currentPage - 1));
   };
 
-  const generatePagination = (totalAlbumsCount, inc, dispatch) => {
-    const panignationButton = [];
-    for (let i = 0; i < totalAlbumsCount; i = i + inc) {
-      panignationButton.push({ page: i / 5 + 1, start: i });
-    }
-    return panignationButton.map((button) => {
-      return (
-        <span
-          className={`pagination__page-btn ${
-            currentPage === button.page ? 'pagination__page-btn--isActive' : ''
-          }`}
-          key={button.page}
-          onClick={() => {
-            dispatch(setCurrentPage(button.page));
-          }}
-        >
-          {button.page}
-        </span>
-      );
-    });
-  };
-
   return (
     <div className="albums-list">
       <h2> List of Albums </h2>
@@ -93,7 +72,14 @@ const AlbumList = () => {
           >
             Prev
           </button>
-          <span>{generatePagination(100, perPage, dispatch)}</span>
+          {/* <PaginationControlButton type="albumList" ops="prev" text="Prev"  /> */}
+          <span>
+            <PaginationSerialButtons
+              totalCount={100}
+              inc={perPage}
+              type="albumList"
+            />
+          </span>
 
           <button
             className="pagination__next-btn"
