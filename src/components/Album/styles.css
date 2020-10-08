@@ -18,6 +18,10 @@
   width: 30%;
 }
 
+.album__card--title {
+  text-transform: capitalize;
+}
+
 .album__card--image {
   border-radius: 4px;
   height: 8.75rem;

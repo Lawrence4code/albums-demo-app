@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { setCurrentPage as setAlbumsListCurrentPage } from './../../redux/albumsList/albumsList.action';
 import { setCurrentPage as setAlbumCurrentPage } from './../../redux/album/album.actions';
 

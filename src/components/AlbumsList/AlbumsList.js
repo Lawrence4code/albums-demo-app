@@ -31,19 +31,16 @@ const renderAlbumsList = (list) => {
 
 const AlbumList = () => {
   const dispatch = useDispatch();
-
-  const startAt = useSelector((state) => {
-    return state.albums.startAt;
+  const {
+    startAt,
+    currentPage,
+    isFetchError,
+    isFetching,
+    perPage,
+    items: albums,
+  } = useSelector((state) => {
+    return state.albums;
   });
-
-  const currentPage = useSelector((state) => {
-    return state.albums.currentPage;
-  });
-  const isFetchError = useSelector((state) => state.albums.isFetchError);
-  const isFetching = useSelector((state) => state.albums.isFetching);
-
-  const perPage = useSelector((state) => state.albums.perPage);
-  const albums = useSelector((state) => state.albums.items);
 
   useEffect(() => {
     dispatch(getAlbums(startAt, perPage));
@@ -64,7 +61,9 @@ const AlbumList = () => {
       {!isFetching && !isFetchError && (
         <div className="pagination">
           <button
-            className="pagination__prev-btn"
+            className={`pagination__prev-btn ${
+              startAt < 5 && 'pagination__btn--disabled'
+            } `}
             disabled={startAt < 5}
             onClick={() => {
               handlePreviousClick(startAt);
@@ -82,7 +81,9 @@ const AlbumList = () => {
           </span>
 
           <button
-            className="pagination__next-btn"
+            className={`pagination__next-btn ${
+              startAt >= 95 && 'pagination__btn--disabled'
+            }`}
             disabled={startAt >= 95}
             onClick={() => {
               handleNextClick(startAt);

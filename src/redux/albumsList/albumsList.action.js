@@ -10,15 +10,20 @@ export const getAlbums = (startAt, perPage) => {
       const albumsResponse = await axios.get(
         `${baseAPI}/albums?_start=${startAt}&_limit=${perPage}`
       );
-      const usersResponse = await axios.get(`${baseAPI}/users`);
+      // const usersResponse = JSON.parse(localStorage.getItem('users')) || await axios.get(`${baseAPI}/users`);
+      const userList =
+        JSON.parse(localStorage.getItem('userList')) ||
+        (await (await axios.get(`${baseAPI}/users`)).data);
+
+      localStorage.setItem('userList', JSON.stringify(userList));
       const albumsData = albumsResponse.data.map((album) => {
-        const user = usersResponse.data.filter(
-          (user) => album.userId === user.id
-        )[0]; // considering user are unique
+        const user = userList.filter((user) => album.userId === user.id)[0]; // considering user are unique
         return { ...album, user };
       });
+
       dispatch(setAlbums(albumsData));
     } catch (e) {
+      console.log('err', e);
       dispatch(setFetchError(true));
       dispatch(setIsFetching(false));
     }

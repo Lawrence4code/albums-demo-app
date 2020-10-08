@@ -11,40 +11,24 @@ import './styles.css';
 
 const Album = () => {
   const dispatch = useDispatch();
-
-  const startAt = useSelector((state) => {
-    return state.selectedAlbum.startAt;
-  });
-
-  const perPage = useSelector((state) => {
-    return state.selectedAlbum.perPage;
-  });
-
-  const currentAlbum = useSelector((state) => {
-    return state.selectedAlbum.currentAlbum;
-  });
-
-  const user = useSelector((state) => {
-    return state.selectedAlbum.user;
-  });
-
-  const isFetching = useSelector((state) => {
-    return state.selectedAlbum.isFetching;
-  });
-
-  const isFetchError = useSelector((state) => {
-    return state.selectedAlbum.isFetchError;
-  });
-
-  const totalCount = useSelector((state) => {
-    return state.selectedAlbum.totalCount;
-  });
-
-  const currentPage = useSelector((state) => {
-    return state.selectedAlbum.currentPage;
-  });
-
   const { id: albumId = 1 } = useParams(); // destructure as albumId, default to 1
+  const {
+    startAt,
+    perPage,
+    currentAlbum,
+    user,
+    isFetching,
+    isFetchError,
+    totalCount,
+    currentPage,
+    items: album,
+  } = useSelector((state) => {
+    return state.selectedAlbum;
+  });
+
+  useEffect(() => {
+    dispatch(getAlbum(albumId, startAt, perPage));
+  }, [albumId, startAt, perPage, dispatch]);
 
   const handleNextClick = () => {
     dispatch(setCurrentPage(currentPage + 1));
@@ -53,14 +37,6 @@ const Album = () => {
   const handlePreviousClick = () => {
     dispatch(setCurrentPage(currentPage - 1));
   };
-
-  const album = useSelector((state) => {
-    return state.selectedAlbum.items;
-  });
-
-  useEffect(() => {
-    dispatch(getAlbum(albumId, startAt, perPage));
-  }, [albumId, startAt, perPage, dispatch]);
 
   return (
     <div className="album-container">
@@ -78,7 +54,7 @@ const Album = () => {
                   src={item.thumbnailUrl}
                   alt={item.title}
                 />
-                <p>{item.title}</p>
+                <p className="album__card--title">{item.title}</p>
               </div>
             );
           })
@@ -90,7 +66,9 @@ const Album = () => {
       {!isFetching && !isFetchError && (
         <div className="pagination">
           <button
-            className="pagination__prev-btn"
+            className={`pagination__prev-btn ${
+              startAt < 9 && 'pagination__btn--disabled'
+            } `}
             disabled={startAt < 9}
             onClick={() => {
               handlePreviousClick(startAt);
@@ -107,7 +85,9 @@ const Album = () => {
           </span>
 
           <button
-            className="pagination__next-btn"
+            className={`pagination__next-btn ${
+              startAt >= totalCount - 9 && 'pagination__btn--disabled'
+            }`}
             disabled={startAt >= totalCount - 9}
             onClick={() => {
               handleNextClick(startAt);

@@ -18,9 +18,12 @@ export const getAlbum = (albumId, startAt, perPage) => {
         `https://jsonplaceholder.typicode.com/albums/${albumId}`
       );
 
-      const usersResponse = await axios.get(`${baseAPI}/users`);
+      const userList =
+        JSON.parse(localStorage.getItem('userList')) ||
+        (await (await axios.get(`${baseAPI}/users`)).data);
 
-      const user = usersResponse.data.filter((user) => {
+      localStorage.setItem('userList', JSON.stringify(userList));
+      const user = userList.filter((user) => {
         return user.id === selectedAlbumDetails.data.userId;
       })[0];
 
@@ -30,13 +33,6 @@ export const getAlbum = (albumId, startAt, perPage) => {
         currentAlbum: selectedAlbumDetails.data,
         user,
       };
-      // const usersResponse = await axios.get(`${baseAPI}/users`);
-      // const albumsData = albumsResponse.data.map((album) => {
-      //   const user = usersResponse.data.filter(
-      //     (user) => album.userId === user.id
-      //   )[0]; // considering user are unique
-      //   return { ...album, user };
-      // });
       dispatch(setAlbum(albumData));
     } catch (e) {
       dispatch(setFetchError(true));
